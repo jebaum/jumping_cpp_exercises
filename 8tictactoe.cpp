@@ -36,13 +36,11 @@ int** initialize(int SIZE)
 {
   int** board = new int*[SIZE];
   for (int i=0; i < SIZE; ++i)
+  {
     board[i] = new int[SIZE];
-
-  /* initialize */
-  for (int i=0; i<SIZE; ++i)
-    for (int j=0; j<SIZE; ++j)
+    for (int j=0; j < SIZE; ++j)
       board[i][j] = TTT_BLANK;
-
+  }
   return board;
 }
 
@@ -66,15 +64,19 @@ bool gameover(int** board, int SIZE, int last_move, int move_row, int move_col)
       return true;
   }
 
-  /* check if we moved on a diagonal, and if so, see if we won */
-  if (move_row != move_col)
-    return false;
-
+  /* check if player won by completing a diagonal */
   for (int i=0, j=0; i < SIZE && j < SIZE; ++i, ++j)
   {
     if (board[i][j] != last_move)
       break;
     if (i == SIZE-1 && j == SIZE-1)
+      return true;
+  }
+  for (int i=0, j=SIZE-1; i < SIZE && j >= 0; ++i, --j)
+  {
+    if (board[i][j] != last_move)
+      break;
+    if (i == SIZE-1 && j == 0)
       return true;
   }
   return false;
