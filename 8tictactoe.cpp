@@ -1,5 +1,5 @@
 #include <iostream>
-#include <stdlib.h>
+#include <cstdlib>
 
 using namespace std;
 
@@ -115,10 +115,25 @@ int main(int argc, char *argv[])
 
     /* read the player's move */
     int move_row, move_col;
+
     cout << "Player " << player << ", choose row:    ";
-    cin >> move_row;
+    while (! (cin >> move_row))
+    {
+      cout << "Not a valid number" << endl;
+      cout << "Player " << player << ", choose row:    ";
+      cin.clear();
+      cin.ignore(1000, '\n');
+    }
+
     cout << "Player " << player << ", choose column: ";
-    cin >> move_col;
+    while (! (cin >> move_col))
+    {
+      cout << "Not a valid number" << endl;
+      cout << "Player " << player << ", choose column: ";
+      cin.clear();
+      cin.ignore(1000, '\n');
+    }
+
     if (move_row > SIZE || move_col > SIZE || move_row < 1 || move_col < 1)
     {
       cout << "Invalid move, board size is " << SIZE << "x" << SIZE << ". Try again." << endl;
@@ -127,8 +142,8 @@ int main(int argc, char *argv[])
     }
 
     /* convert to zero-indexing */
-    move_row--;
-    move_col--;
+    --move_row;
+    --move_col;
 
     /* attempt the move */
     if (board[move_row][move_col] == TTT_BLANK)
